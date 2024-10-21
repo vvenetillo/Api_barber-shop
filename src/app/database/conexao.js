@@ -20,4 +20,22 @@ conexao.connect((err) => {
     }
 });
 
+/**
+ * @param {string} sql instrução sql a ser executada
+ * @param {string=id | [selecao, id]} valores a serem passados para o sql
+ * @param {string} mensagemReject mensagem a ser exibida
+ * @returns objeto da Promisse
+ */
+
+
+export const consulta = (sql, value='', messageReject) => {
+    return new Promise((resolve, reject) => {
+        conexao.query(sql, value, (error, result) => {
+          if (error) return reject(messageReject);
+          const row = JSON.parse(JSON.stringify(result));
+          return resolve(row);
+        });
+      });
+}
+
 export default conexao;

@@ -1,61 +1,30 @@
-import conexao from "../database/conexao.js";
+import { consulta } from "../database/conexao.js";
 
 class ClienteRepository {
 // CRUD
-  create() {
+  create(clientes) {
     const sql = `INSERT INTO agendamento SET ?;`;
-    return new Promise((resolve, reject) => {
-        conexao.query(sql, clientes, (error, result) => {
-          if (error) return reject("Não foi possível cadastrar");
-          //parse dos resultados
-          const row = JSON.parse(JSON.stringify(result));
-          return resolve(row);
-        });
-      });
+    return consulta(sql, clientes, 'Não foi possível criar!')
   }
   findAll() {
     const sql = `SELECT * FROM agendamento;`;
-    return new Promise((resolve, reject) => {
-      conexao.query(sql, (error, result) => {
-        if (error) return reject("Não foi possível localizar");
-        //parse dos resultados
-        const row = JSON.parse(JSON.stringify(result));
-        return resolve(row);
-      });
-    });
+    return consulta(sql, 'Não foi possível localizar!')
+
   }
-  findById() {
+  findById(id) {
     const sql = `SELECT * FROM agendamento WHERE id=?;`;
-    return new Promise((resolve, reject) => {
-      conexao.query(sql, id, (error, result) => {
-        if (error) return reject("Não foi possível localizar");
-        // parse dos resultados
-        const row = JSON.parse(JSON.stringify(result));
-        return resolve(row);
-      });
-    });
+    return consulta(sql, id, 'Não foi possível localizar!')
+
   }
   update(clientes, id) {
     const sql = 'UPDATE agendamento SET ? WHERE ? WHERE id=?;'
-    return new Promise((resolve, reject) => {
-        conexao.query(sql, [clientes, id], (error, result) => {
-          if (error) return reject("Não foi possível modificar");
-          // parse dos resultados
-          const row = JSON.parse(JSON.stringify(result));
-          return resolve(row);
-        });
-      });
+    return consulta(sql, [clientes, id], 'Não foi possível atualizar!')
+
   }
   delete(id) {
     const sql = 'DELETE FROM agendamento WHERE id=?;'
-    return new Promise((resolve, reject) => {
-        conexao.query(sql, id, (error, result) => {
-          if (error) return reject("Não foi possível deletar");
-          // parse dos resultados
-          const row = JSON.parse(JSON.stringify(result));
-          return resolve(row);
-        });
-      });
+    return consulta(sql, id, 'Não foi possível deletar!')
+
   }
 }
 
